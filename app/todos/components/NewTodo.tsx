@@ -1,21 +1,26 @@
 'use client';
 import React, { FormEvent } from 'react'
 import { IoTrashOutline } from 'react-icons/io5'
-import { addTodo } from '../helpers/todos';
+import * as todosApi from '../helpers/todos';
 import { useRouter } from "next/navigation";
 
 export const NewTodo = () => {
-    const router = useRouter();
-    const [description, setDescription] = React.useState('');
-    const onSubmit = async (e:FormEvent)=>{
+  const [description, setDescription] = React.useState('');
+  const router = useRouter();
+
+  const onSubmit = async (e:FormEvent)=>{
         e.preventDefault();
         if(description.trim().length === 0) return;
-        console.log("form submitted", description);
-        await addTodo(description);
+        todosApi.addTodo(description);
+        setDescription('');
         router.refresh();
     }
+  const deleteCompleted = async()=>{
+    await todosApi.deleteCompletedTodos();
+    router.refresh();
+  }
   return (
-   <form  onSubmit={onSubmit} className='flex w-full'>
+    <form  onSubmit={onSubmit} className='flex w-full'>
       <input type="text"
         onChange={(e)=>setDescription(e.target.value)}
         value={description}
@@ -29,13 +34,11 @@ export const NewTodo = () => {
       <span className='flex flex-1'></span>
 
       <button
-        //TODO: onClick={ () => deleteCompleted() }
+         onClick={ () => deleteCompleted() }
         type='button' className="flex items-center justify-center rounded ml-2 bg-red-400 p-2 text-white hover:bg-red-700 transition-all">
         <IoTrashOutline  />
-        Delete
+        <span className='ml-2'>Borrar Completados</span>
       </button>
-
-
     </form>
   )
 }

@@ -1,4 +1,5 @@
 import { Todo } from "@prisma/client";
+import { boolean } from "yup";
 
 export const updateTodo = async (
   id: string,
@@ -17,7 +18,7 @@ export const updateTodo = async (
 
 export const addTodo = async (description: String): Promise<Todo> => {
   const body = { description };
-  const todo = await fetch(`/api/todos/}`, {
+  const todo = await fetch(`/api/todos/`, {
     method: "POST",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" },
@@ -25,4 +26,12 @@ export const addTodo = async (description: String): Promise<Todo> => {
   console.log(todo);
 
   return todo;
+};
+
+export const deleteCompletedTodos = async (): Promise<boolean> => {
+  await fetch(`/api/todos`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  }).then((res) => res.json());
+  return true;
 };

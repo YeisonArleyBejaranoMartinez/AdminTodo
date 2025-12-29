@@ -8,30 +8,29 @@ interface Props {
     toggleTodo: (id: string, complete: boolean) =>Promise<Todo|void>
 }
 export const TodoItem = ({todo, toggleTodo}: Props) => {
-
-      return (
-    <div className={todo.complete ? styles.todoDone : styles.todoPending}>
-        <div className="flex flex-col sm:flex-row justify-start items-center gap-4">
-            <div
-            onClick={()=>toggleTodo(todo.id, !todo.complete)}
-            className={`
-                flex p-2 rounded-md cursor-pointer
-                hover:bg-opacity-600
-                bg-blue-100
-                ${todo.complete ? "bg-green-700" : "bg-red-700"}
-                `}>
-                {
-                    todo.complete ?
-                    <IoCheckboxOutline size={25}  />
-                    :
-                    <IoSquareOutline size={25}  />
-                }
+    return (
+        <div className={todo.complete ? styles.todoDone : styles.todoPending}>
+            <div className="flex flex-col sm:flex-row justify-start items-center gap-4">
+                <div
+                onClick={()=>toggleTodo(todo.id, !todo.complete)}
+                className={`
+                    flex p-2 rounded-md cursor-pointer
+                    hover:bg-opacity-600
+                    bg-blue-100
+                    ${todo.complete ? "bg-green-700" : "bg-red-700"}
+                    `}>
+                    {
+                        todo.complete ?
+                        <IoCheckboxOutline size={25}  />
+                        :
+                        <IoSquareOutline size={25}  />
+                    }
+                </div>
+                <div className="text-center sm:text-left text-zinc-950">
+                    {todo.description}
+                </div>
+                {/* {todo.description} */}
             </div>
-            <div className="text-center sm:text-left text-zinc-950">
-                {todo.description}
-            </div>
-            {/* {todo.description} */}
         </div>
-    </div>
-  )
+    )
 }
